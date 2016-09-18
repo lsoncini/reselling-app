@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.raptor.resellingapp.R;
 
 public class MainActivity extends Activity {
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
+        ButterKnife.bind(this);
 
         purchases.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

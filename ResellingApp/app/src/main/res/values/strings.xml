@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">Reselling App</string>
+    <string name="app_name">Raptor Buy n Sell</string>
     <string name="loading">Loading...</string>
+
+    <string name="sales_main_title">Sales</string>
+    <string name="purchases_main_title">Purchases</string>
+    <string name="stats_main_title">Stats</string>
+    <string name="settings_main_title">Settings</string>
+    <string name="products_main_title">Products</string>
+    <string name="clients_main_title">Clients</string>
 </resources>

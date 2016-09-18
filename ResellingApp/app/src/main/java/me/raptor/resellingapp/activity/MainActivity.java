@@ -1,4 +1,4 @@
-package raptor.me.resellingapp.activity;
+package me.raptor.resellingapp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import butterknife.BindView;
-import raptor.me.resellingapp.R;
+import me.raptor.resellingapp.R;
 
 public class MainActivity extends Activity {
 

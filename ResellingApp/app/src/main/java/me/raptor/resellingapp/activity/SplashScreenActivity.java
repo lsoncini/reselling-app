@@ -1,6 +1,7 @@
-package raptor.me.resellingapp.activity;
+package me.raptor.resellingapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -10,7 +11,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
-import raptor.me.resellingapp.R;
+import me.raptor.resellingapp.R;
+import me.raptor.resellingapp.store.CategoryStore;
+import me.raptor.resellingapp.store.ClientStore;
+import me.raptor.resellingapp.store.GroupStore;
+import me.raptor.resellingapp.store.ProductStore;
+import me.raptor.resellingapp.store.PurchaseStore;
+import me.raptor.resellingapp.store.SaleStore;
 
 /**
  * Created by Lucas on 06/09/2016.
@@ -23,6 +30,7 @@ public class SplashScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeSQL(getApplicationContext());
         // Set portrait orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -44,6 +52,15 @@ public class SplashScreenActivity extends Activity {
         // Simulate a long loading process on application startup.
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
+    }
+
+    private void initializeSQL(Context ctx) {
+        CategoryStore.getInstance(ctx);
+        GroupStore.getInstance(ctx);
+        SaleStore.getInstance(ctx);
+        PurchaseStore.getInstance(ctx);
+        ClientStore.getInstance(ctx);
+        ProductStore.getInstance(ctx);
     }
 
     private void startMainActivity() {

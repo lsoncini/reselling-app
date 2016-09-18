@@ -8,4 +8,6 @@
     <string name="settings_main_title">Settings</string>
     <string name="products_main_title">Products</string>
     <string name="clients_main_title">Clients</string>
+    <string name="title_activity_purchases">PurchasesActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

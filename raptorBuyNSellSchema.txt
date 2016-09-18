@@ -1,0 +1,58 @@
+CREATE TABLE IF NOT EXISTS categories (
+	name 		text 	NOT NULL,
+
+	PRIMARY KEY (name)
+);
+
+CREATE TABLE IF NOT EXISTS groups (
+	name 		text 	NOT NULL,
+
+	PRIMARY KEY (name)
+);
+
+CREATE TABLE IF NOT EXISTS sales (
+	saleID 		integer 	NOT NULL,
+	date		text	 	NOT NULL,
+	group 		text		NOT NULL,
+
+	PRIMARY KEY (saleID),
+	FOREIGN KEY (group)	REFERENCES groups ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS purchases (
+	purchaseID 		integer 	NOT NULL,
+	date			text 		NOT NULL,
+
+	PRIMARY KEY (purchaseID),
+);
+
+
+CREATE TABLE IF NOT EXISTS clients (
+	clientID	integer		NOT NULL,
+	name 		text		NOT NULL,
+	phone		text,
+	email		text,
+	group		text,
+
+	PRIMARY KEY (clientID),
+	FOREIGN KEY (group)	REFERENCES groups ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+
+CREATE TABLE IF NOT EXISTS products (
+	productID   	integer		NOT NULL,
+	name 			text 		NOT NULL,
+	category 		text		NOT NULL,
+	buyer			integer,
+	saleID 			integer,
+	purchaseID 		integer		NOT NULL,
+	purchasePrice	real		NOT NULL,
+	salePrice		real,
+	reserved		boolean		NOT NULL,
+
+	PRIMARY KEY (productID)
+	FOREIGN KEY (category) REFERENCES categories ON DELETE CASCADE ON UPDATE RESTRICT,
+	FOREIGN KEY (buyer) REFERENCES clients ON DELETE CASCADE ON UPDATE RESTRICT,
+	FOREIGN KEY (saleID) REFERENCES sales ON DELETE CASCADE ON UPDATE RESTRICT,
+	FOREIGN KEY (purchaseID) REFERENCES purchases ON DELETE CASCADE ON UPDATE RESTRICT
+);

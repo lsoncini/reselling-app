@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Raptor Buy n Sell</string>
+    <string name="clients_main_title">Clientes</string>
+    <string name="loading">Cargando...</string>
+    <string name="products_main_title">Productos</string>
+    <string name="purchases_main_title">Compras</string>
+    <string name="sales_main_title">Ventas</string>
+    <string name="settings_main_title">Ajustes</string>
+    <string name="stats_main_title">Estadísticas</string>
+</resources>

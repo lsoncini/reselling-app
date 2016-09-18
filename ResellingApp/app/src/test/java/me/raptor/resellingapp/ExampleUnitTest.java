@@ -1,4 +1,4 @@
-package raptor.me.resellingapp;
+package me.raptor.resellingapp;
 
 import org.junit.Test;
 

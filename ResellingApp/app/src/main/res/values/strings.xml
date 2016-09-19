@@ -24,4 +24,6 @@
     <string name="products">Products</string>
 
     <string name="empty_product_small_list_msg">No products yet. You can add new products with the + button on top.</string>
+    <string name="saveButton">Save</string>
+    <string name="newButton">New</string>
 </resources>

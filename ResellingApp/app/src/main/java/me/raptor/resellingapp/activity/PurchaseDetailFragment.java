@@ -46,13 +46,6 @@ public class PurchaseDetailFragment extends LoadingFragment {
         View view = inflater.inflate(R.layout.fragment_purchase_detail, container, false);
         ButterKnife.bind(this, view);
         sdf = new SimpleDateFormat("dd/MM/yy");
-        data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PurchaseStore.getInstance(getContext()).insertPurchase(purchase);
-                PurchaseDetailFragment.this.listener.onPurchasesListChanged();
-            }
-        });
         return view;
     }
 
@@ -60,12 +53,14 @@ public class PurchaseDetailFragment extends LoadingFragment {
     public void onStart() {
         super.onStart();
         updateView();
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         updateView();
+        getActivity().invalidateOptionsMenu();
     }
 
     public PurchaseDetailFragment setPurchase(Purchase purchase) {
@@ -73,6 +68,10 @@ public class PurchaseDetailFragment extends LoadingFragment {
         this.productList = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
         updateView();
         return this;
+    }
+
+    public void savePurchase() {
+        PurchaseStore.getInstance(getContext()).insertPurchase(purchase);
     }
 
     public void setPurchasesListener(PurchaseList.PurchaseListListener l){

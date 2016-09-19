@@ -19,4 +19,6 @@
     <string name="product">Producto</string>
     <string name="products">Productos</string>
     <string name="empty_product_small_list_msg">No hay productos aún. Puede agregar nuevos productos con el botón + arriba.</string>
+    <string name="newButton">Nuevo</string>
+    <string name="saveButton">Guardar</string>
 </resources>

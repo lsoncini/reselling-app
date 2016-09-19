@@ -6,6 +6,12 @@
         android:id="@+id/action_new_button"
         android:orderInCategory="100"
         android:icon="@drawable/add"
-        android:title="@string/settings_main_title"
+        android:title="@string/newButton"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_save_button"
+        android:orderInCategory="100"
+        android:icon="@drawable/save"
+        android:title="@string/saveButton"
         app:showAsAction="always" />
 </menu>

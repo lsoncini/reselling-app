@@ -29,6 +29,14 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_purchases, menu);
+        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        MenuItem saveItem = menu.findItem(R.id.action_save_button);
+        MenuItem newItem = menu.findItem(R.id.action_new_button);
+        if(fragment instanceof PurchaseListFragment){
+            saveItem.setVisible(false);
+        } else{
+            saveItem.setVisible(true);
+        }
         return true;
     }
 
@@ -66,6 +74,10 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
         } else if(fragment instanceof PurchaseDetailFragment){
             if (item.getItemId() == R.id.action_new_button) {
                 Toast.makeText(getApplicationContext(), "nuevo producto", Toast.LENGTH_SHORT).show();
+            }
+            if (item.getItemId() == R.id.action_save_button) {
+                ((PurchaseDetailFragment) fragment).savePurchase();
+                Toast.makeText(getApplicationContext(), "compra guardada", Toast.LENGTH_SHORT).show();
             }
         }
         return true;

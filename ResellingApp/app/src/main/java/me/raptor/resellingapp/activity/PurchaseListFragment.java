@@ -56,9 +56,17 @@ public class PurchaseListFragment extends LoadingFragment implements PurchaseLis
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateView();
+        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updateView();
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override

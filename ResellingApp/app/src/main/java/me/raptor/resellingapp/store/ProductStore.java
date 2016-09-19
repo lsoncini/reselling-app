@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.raptor.resellingapp.model.Product;
+import me.raptor.resellingapp.model.Purchase;
 
 /**
  * Created by Lucas on 18/09/2016.
@@ -24,11 +25,8 @@ public class ProductStore extends RaptorStore {
     public static final String PRODUCTS_COLUMN_PURCHASE_PRICE = "purchasePrice";
     public static final String PRODUCTS_COLUMN_SALE_PRICE = "salePrice";
 
-    private static ClientStore clientStore;
-    private static SaleStore saleStore;
-    private static PurchaseStore purchaseStore;
-
     private static ProductStore mInstance = null;
+    private Context context;
 
     public static ProductStore getInstance(Context context) {
 
@@ -41,16 +39,14 @@ public class ProductStore extends RaptorStore {
     private ProductStore(Context context)
     {
         super(context);
-        clientStore = ClientStore.getInstance(context);
-        saleStore = SaleStore.getInstance(context);
-        purchaseStore = PurchaseStore.getInstance(context);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table " + CLIENTS_TABLE_NAME + " (" +
+                "create table " + PRODUCTS_TABLE_NAME + " (" +
                         PRODUCTS_COLUMN_ID + " integer not null, " +
                         PRODUCTS_COLUMN_NAME + " text not null, " +
                         PRODUCTS_COLUMN_CATEGORY + " text not null, " +
@@ -58,7 +54,7 @@ public class ProductStore extends RaptorStore {
                         PRODUCTS_COLUMN_SALEID + " integer, " +
                         PRODUCTS_COLUMN_PURCHASEID + " integer not null, " +
                         PRODUCTS_COLUMN_PURCHASE_PRICE + " real not null, " +
-                        PRODUCTS_COLUMN_SALE_PRICE + " real," +
+                        PRODUCTS_COLUMN_SALE_PRICE + " real, " +
                         "PRIMARY KEY (" + PRODUCTS_COLUMN_ID + "), " +
                         "FOREIGN KEY (" + PRODUCTS_COLUMN_CATEGORY + ") REFERENCES " + CATEGORIES_TABLE_NAME + " ON DELETE CASCADE ON UPDATE RESTRICT, " +
                         "FOREIGN KEY (" + PRODUCTS_COLUMN_BUYER + ") REFERENCES " + CLIENTS_TABLE_NAME + " ON DELETE CASCADE ON UPDATE RESTRICT, " +
@@ -96,9 +92,9 @@ public class ProductStore extends RaptorStore {
         return new Product(id,
                 res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
                 res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
-                clientStore.getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
-                saleStore.getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
-                purchaseStore.getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
+                ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
+                SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
                 res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
                 res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE)));
     }
@@ -144,9 +140,37 @@ public class ProductStore extends RaptorStore {
             products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
-                    clientStore.getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
-                    saleStore.getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
-                    purchaseStore.getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
+                    ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
+                    SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                    PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
+                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
+                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE))));
+            res.moveToNext();
+        }
+        return products_list;
+    }
+
+    public Integer getProductCountForPurchase(Purchase purchase) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select count(*) from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_PURCHASEID + "="+purchase.getPurchaseID(), null );
+        res.moveToFirst();
+        return res.getInt(0);
+    }
+
+    public List<Product> getProductsForPurchase(Purchase purchase) {
+        List<Product> products_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_PURCHASEID + "=" + purchase.getPurchaseID(), null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
+                    ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
+                    SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                    purchase,
                     res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
                     res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE))));
             res.moveToNext();

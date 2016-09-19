@@ -17,7 +17,7 @@ public abstract class RaptorStore extends SQLiteOpenHelper{
     protected static final String SALES_TABLE_NAME = "sales";
     protected static final String PURCHASES_TABLE_NAME = "purchases";
     protected static final String GROUPS_TABLE_NAME = "groups";
-    protected static final SimpleDateFormat sdf= new SimpleDateFormat("dd:MM:yy");
+    protected static final SimpleDateFormat sdf= new SimpleDateFormat("dd:MM:yyyy");
 
     private HashMap hp;
 

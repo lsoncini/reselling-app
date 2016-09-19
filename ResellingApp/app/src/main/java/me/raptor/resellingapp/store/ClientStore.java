@@ -19,7 +19,7 @@ public class ClientStore extends RaptorStore {
     public static final String CLIENTS_COLUMN_NAME = "name";
     public static final String CLIENTS_COLUMN_PHONE = "phone";
     public static final String CLIENTS_COLUMN_EMAIL = "email";
-    public static final String CLIENTS_COLUMN_GROUP = "group";
+    public static final String CLIENTS_COLUMN_GROUP = "groupName";
 
     private static ClientStore mInstance = null;
 

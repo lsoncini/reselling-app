@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.raptor.resellingapp.activity.PurchasesActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_new_button"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:icon="@drawable/add"
+        android:title="@string/settings_main_title"
+        app:showAsAction="always" />
 </menu>

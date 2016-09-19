@@ -17,6 +17,7 @@ import me.raptor.resellingapp.store.ClientStore;
 import me.raptor.resellingapp.store.GroupStore;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
+import me.raptor.resellingapp.store.RaptorStore;
 import me.raptor.resellingapp.store.SaleStore;
 
 /**
@@ -25,12 +26,11 @@ import me.raptor.resellingapp.store.SaleStore;
 public class SplashScreenActivity extends Activity {
 
     // Set the duration of the splash screen
-    private static final long SPLASH_SCREEN_DELAY = 5000;
+    private static final long SPLASH_SCREEN_DELAY = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeSQL(getApplicationContext());
         // Set portrait orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -41,6 +41,7 @@ public class SplashScreenActivity extends Activity {
         ButterKnife.bind(this);
 
         getSharedPreferences("appData", MODE_PRIVATE).edit().putString("version", "1.1.0").commit();
+        initializeSQL(getApplicationContext());
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -55,6 +56,19 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void initializeSQL(Context ctx) {
+        RaptorStore c = CategoryStore.getInstance(ctx);           //for automatic db reset when testing
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+        c= GroupStore.getInstance(ctx);
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+        c=SaleStore.getInstance(ctx);
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+        c=PurchaseStore.getInstance(ctx);
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+        c=ClientStore.getInstance(ctx);
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+        c=ProductStore.getInstance(ctx);
+        c.onUpgrade(c.getWritableDatabase(),0,1);
+
         CategoryStore.getInstance(ctx);
         GroupStore.getInstance(ctx);
         SaleStore.getInstance(ctx);

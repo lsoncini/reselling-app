@@ -116,4 +116,33 @@ public class PurchaseStore extends RaptorStore {
         }
         return purchases_list;
     }
+
+    public List<Purchase> getAllPurchasesOrdered() {
+        List<Purchase> purchases_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + PURCHASES_TABLE_NAME + " order by " + PURCHASES_COLUMN_ID, null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            try {
+                purchases_list.add(new Purchase(res.getInt(res.getColumnIndex(PURCHASES_COLUMN_ID)),
+                        sdf.parse(res.getString(res.getColumnIndex(PURCHASES_COLUMN_DATE)))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            res.moveToNext();
+        }
+        return purchases_list;
+    }
+
+    public Integer getNextID() {
+        if (numberOfRows() == 0){
+            return 1;
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select max(" + PURCHASES_COLUMN_ID + ") from " + PURCHASES_TABLE_NAME,null);
+        res.moveToFirst();
+        return res.getInt(0)+1;
+    }
 }

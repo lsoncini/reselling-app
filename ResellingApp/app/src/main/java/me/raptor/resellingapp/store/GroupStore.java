@@ -34,7 +34,9 @@ public class GroupStore extends RaptorStore {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table " + GROUPS_TABLE_NAME + " (" + GROUP_COLUMN_NAME + " text primary key)"
+                "create table " + GROUPS_TABLE_NAME + " (" +
+                        GROUP_COLUMN_NAME + " text not null, " +
+                        "PRIMARY KEY (" + GROUP_COLUMN_NAME +"))"
         );
     }
 

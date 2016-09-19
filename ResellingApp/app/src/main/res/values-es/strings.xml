@@ -8,4 +8,15 @@
     <string name="sales_main_title">Ventas</string>
     <string name="settings_main_title">Ajustes</string>
     <string name="stats_main_title">Estadísticas</string>
+    <string name="purchase">Compra</string>
+    <string name="purchase_data_title">Información</string>
+    <string name="add_purchases_sub">Puede agregar sus compras con el botón + arriba.</string>
+    <string name="add_purchases_msg">Agregue sus compras!</string>
+    <string name="title_activity_purchase_list">PurchaseListActivity</string>
+    <string name="date_title">Fecha de compra: </string>
+    <string name="product_count_title">Cantidad de productos: </string>
+    <string name="no_products_yet">No hay productos aún.</string>
+    <string name="product">Producto</string>
+    <string name="products">Productos</string>
+    <string name="empty_product_small_list_msg">No hay productos aún. Puede agregar nuevos productos con el botón + arriba.</string>
 </resources>

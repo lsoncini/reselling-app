@@ -19,7 +19,7 @@ public class SaleStore extends RaptorStore{
 
     public static final String SALES_COLUMN_ID = "salesID";
     public static final String SALES_COLUMN_DATE = "date";
-    public static final String SALES_COLUMN_GROUP = "group";
+    public static final String SALES_COLUMN_GROUP = "groupName";
 
     private static SaleStore mInstance = null;
 
@@ -43,16 +43,16 @@ public class SaleStore extends RaptorStore{
                 "create table " + SALES_TABLE_NAME + " (" +
                         SALES_COLUMN_ID + " integer not null, " +
                         SALES_COLUMN_DATE + " text not null, " +
-                        SALES_COLUMN_GROUP + " text not null," +
+                        SALES_COLUMN_GROUP + " text not null, " +
                         "PRIMARY KEY (" + SALES_COLUMN_ID + "), " +
-                        "FOREIGN KEY (" + SALES_COLUMN_GROUP + ") REFERENCES " + GROUPS_TABLE_NAME + " ON DELETE CASCADE ON UPDATE RESTRICT)"
+                        "FOREIGN KEY (" + SALES_COLUMN_GROUP + ") REFERENCES " + GROUPS_TABLE_NAME + "(name) ON DELETE CASCADE ON UPDATE RESTRICT)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS " + CATEGORIES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SALES_TABLE_NAME);
         onCreate(db);
     }
 

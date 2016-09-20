@@ -18,24 +18,27 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
+import me.raptor.resellingapp.view.ProductSmallList;
 import me.raptor.resellingapp.view.PurchaseList;
 
 /**
  * Created by Lucas on 19/09/2016.
  */
-public class PurchaseDetailFragment extends LoadingFragment {
+public class PurchaseDetailFragment extends LoadingFragment implements ProductSmallList.ProductSmallListListener{
     public String getTitle() {
         return purchase ==null?"Purchase Details": getResources().getString(R.string.purchase) + " "+ purchase.getPurchaseID();
     }
 
     public Purchase purchase;
-    public List<Product> productList;
+    public List<Product> products;
     public PurchaseList.PurchaseListListener listener;
     private SimpleDateFormat sdf;
 
     @BindView(R.id.description_title) TextView data_title;
     @BindView(R.id.description) TextView data;
     @BindView(R.id.product_list_empty_view) TextView emptyView;
+    @BindView(R.id.productsList)
+    ProductSmallList productList;
 
     @BindString(R.string.purchase_data_title) String data_title_string;
     @BindString(R.string.date_title) String date_title;
@@ -46,6 +49,7 @@ public class PurchaseDetailFragment extends LoadingFragment {
         View view = inflater.inflate(R.layout.fragment_purchase_detail, container, false);
         ButterKnife.bind(this, view);
         sdf = new SimpleDateFormat("dd/MM/yy");
+        productList.setListener((ProductSmallList.ProductSmallListListener) getActivity());
         return view;
     }
 
@@ -65,7 +69,7 @@ public class PurchaseDetailFragment extends LoadingFragment {
 
     public PurchaseDetailFragment setPurchase(Purchase purchase) {
         this.purchase = purchase;
-        this.productList = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
+        this.products = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
         updateView();
         return this;
     }
@@ -83,21 +87,34 @@ public class PurchaseDetailFragment extends LoadingFragment {
         showSpinner();
         if(purchase == null) {
             purchase = new Purchase(PurchaseStore.getInstance(getContext()).getNextID(), new Date());
-            productList = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
+            products = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
         }
         loadFullPurchase();
         hideSpinner();
     }
 
     private void loadFullPurchase() {
-        if (productList.size() == 0) {
+        if (products.size() == 0) {
             emptyView.setVisibility(View.VISIBLE);
         } else {
+            productList.setProducts(products);
             emptyView.setVisibility(View.GONE);
         }
         this.data_title.setText(data_title_string);
         Integer productCount = ProductStore.getInstance(getContext()).getProductCountForPurchase(purchase);
         StringBuilder msg = new StringBuilder(date_title).append(sdf.format(purchase.getDate())).append('\n').append(count_title).append(productCount);
         this.data.setText(msg.toString());
+    }
+
+    @Override
+    public void onProductSelected(Product product) {
+
+    }
+
+    @Override
+    public void onProductListChanged() {
+        products.clear();
+        products.addAll(ProductStore.getInstance(getContext()).getProductsForPurchase(purchase));
+        updateView();
     }
 }

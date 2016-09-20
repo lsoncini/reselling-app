@@ -71,6 +71,7 @@ public class SaleStore extends RaptorStore{
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + SALES_TABLE_NAME + " where " + SALES_COLUMN_ID + "="+id, null );
         Sale sale = null;
+        res.moveToFirst();
         try {
             sale = new Sale(id,
                     sdf.parse(res.getString(res.getColumnIndex(SALES_COLUMN_DATE))),

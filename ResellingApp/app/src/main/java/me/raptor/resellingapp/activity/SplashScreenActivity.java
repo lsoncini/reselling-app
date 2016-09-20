@@ -41,7 +41,8 @@ public class SplashScreenActivity extends Activity {
         ButterKnife.bind(this);
 
         getSharedPreferences("appData", MODE_PRIVATE).edit().putString("version", "1.1.0").commit();
-        initializeSQL(getApplicationContext());
+        if (!getSharedPreferences("db",MODE_PRIVATE).getBoolean("initialized",false))
+            initializeSQL(getApplicationContext());
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -69,12 +70,7 @@ public class SplashScreenActivity extends Activity {
         c=ProductStore.getInstance(ctx);
         c.onUpgrade(c.getWritableDatabase(),0,1);
 
-        CategoryStore.getInstance(ctx);
-        GroupStore.getInstance(ctx);
-        SaleStore.getInstance(ctx);
-        PurchaseStore.getInstance(ctx);
-        ClientStore.getInstance(ctx);
-        ProductStore.getInstance(ctx);
+        getSharedPreferences("db",MODE_PRIVATE).edit().putBoolean("initialized",true).apply();
     }
 
     private void startMainActivity() {

@@ -66,6 +66,7 @@ public class PurchaseStore extends RaptorStore {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + PURCHASES_TABLE_NAME + " where " + PURCHASES_COLUMN_ID + "="+id, null );
         Purchase purchase = null;
+        res.moveToFirst();
         try {
             purchase = new Purchase(id, sdf.parse(res.getString(res.getColumnIndex(PURCHASES_COLUMN_DATE))));
         } catch (ParseException e) {

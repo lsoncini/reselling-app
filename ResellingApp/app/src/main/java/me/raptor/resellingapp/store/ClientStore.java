@@ -74,6 +74,7 @@ public class ClientStore extends RaptorStore {
     public Client getClient(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + CLIENTS_TABLE_NAME + " where " + CLIENTS_COLUMN_ID + "="+id, null );
+        res.moveToFirst();
         return new Client(id,
                 res.getString(res.getColumnIndex(CLIENTS_COLUMN_NAME)),
                 res.getString(res.getColumnIndex(CLIENTS_COLUMN_PHONE)),

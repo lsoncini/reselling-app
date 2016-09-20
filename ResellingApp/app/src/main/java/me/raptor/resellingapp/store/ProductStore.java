@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.raptor.resellingapp.model.Client;
 import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
+import me.raptor.resellingapp.model.Sale;
 
 /**
  * Created by Lucas on 18/09/2016.
@@ -77,8 +79,10 @@ public class ProductStore extends RaptorStore {
         contentValues.put(PRODUCTS_COLUMN_ID, product.getProductID());
         contentValues.put(PRODUCTS_COLUMN_NAME, product.getName());
         contentValues.put(PRODUCTS_COLUMN_CATEGORY, product.getCategory());
-        contentValues.put(PRODUCTS_COLUMN_BUYER, product.getBuyer().getClientID());
-        contentValues.put(PRODUCTS_COLUMN_SALEID, product.getSale().getSaleID());
+        Client client = product.getBuyer();
+        contentValues.put(PRODUCTS_COLUMN_BUYER, client==null?null:client.getClientID());
+        Sale sale = product.getSale();
+        contentValues.put(PRODUCTS_COLUMN_SALEID, sale == null?null:sale.getSaleID());
         contentValues.put(PRODUCTS_COLUMN_PURCHASEID, product.getPurchase().getPurchaseID());
         contentValues.put(PRODUCTS_COLUMN_PURCHASE_PRICE, product.getPurchasePrice());
         contentValues.put(PRODUCTS_COLUMN_SALE_PRICE, product.getSalePrice());
@@ -89,14 +93,18 @@ public class ProductStore extends RaptorStore {
     public Product getProduct(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_ID + "="+id, null );
-        return new Product(id,
+        res.moveToFirst();
+        Integer buyerIndex = res.getColumnIndex(PRODUCTS_COLUMN_BUYER);
+        Integer saleIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALEID);
+        Integer salePriceIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE);
+        return new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
                 res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
                 res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
-                ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
-                SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                res.isNull(buyerIndex)? null : ClientStore.getInstance(context).getClient(res.getInt(buyerIndex)),
+                res.isNull(saleIndex) ? null : SaleStore.getInstance(context).getSale(res.getInt(saleIndex)),
                 PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
                 res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
-                res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE)));
+                res.isNull(salePriceIndex) ? null : res.getDouble(salePriceIndex));
     }
 
     public int numberOfRows(){
@@ -111,8 +119,10 @@ public class ProductStore extends RaptorStore {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PRODUCTS_COLUMN_NAME, product.getName());
         contentValues.put(PRODUCTS_COLUMN_CATEGORY, product.getCategory());
-        contentValues.put(PRODUCTS_COLUMN_BUYER, product.getBuyer().getClientID());
-        contentValues.put(PRODUCTS_COLUMN_SALEID, product.getSale().getSaleID());
+        Client client = product.getBuyer();
+        contentValues.put(PRODUCTS_COLUMN_BUYER, client==null? null : client.getClientID());
+        Sale sale = product.getSale();
+        contentValues.put(PRODUCTS_COLUMN_SALEID, sale == null ? null : sale.getSaleID());
         contentValues.put(PRODUCTS_COLUMN_PURCHASEID, product.getPurchase().getPurchaseID());
         contentValues.put(PRODUCTS_COLUMN_PURCHASE_PRICE, product.getPurchasePrice());
         contentValues.put(PRODUCTS_COLUMN_SALE_PRICE, product.getSalePrice());
@@ -136,15 +146,18 @@ public class ProductStore extends RaptorStore {
         Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME, null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
+            Integer buyerIndex = res.getColumnIndex(PRODUCTS_COLUMN_BUYER);
+            Integer saleIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALEID);
+            Integer salePriceIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE);
             products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
-                    ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
-                    SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                    res.isNull(buyerIndex)? null : ClientStore.getInstance(context).getClient(res.getInt(buyerIndex)),
+                    res.isNull(saleIndex) ? null : SaleStore.getInstance(context).getSale(res.getInt(saleIndex)),
                     PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
                     res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
-                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE))));
+                    res.isNull(salePriceIndex) ? null : res.getDouble(salePriceIndex)));
             res.moveToNext();
         }
         return products_list;
@@ -164,15 +177,18 @@ public class ProductStore extends RaptorStore {
         Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_PURCHASEID + "=" + purchase.getPurchaseID(), null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
+            Integer buyerIndex = res.getColumnIndex(PRODUCTS_COLUMN_BUYER);
+            Integer saleIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALEID);
+            Integer salePriceIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE);
             products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
                     res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
-                    ClientStore.getInstance(context).getClient(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_BUYER))),
-                    SaleStore.getInstance(context).getSale(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_SALEID))),
+                    res.isNull(buyerIndex)? null : ClientStore.getInstance(context).getClient(res.getInt(buyerIndex)),
+                    res.isNull(saleIndex) ? null : SaleStore.getInstance(context).getSale(res.getInt(saleIndex)),
                     purchase,
                     res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
-                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE))));
+                    res.isNull(salePriceIndex) ? null : res.getDouble(salePriceIndex)));
             res.moveToNext();
         }
         return products_list;

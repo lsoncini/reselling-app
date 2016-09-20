@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/color_pallete_dark_gray">
     <TextView
         android:id="@+id/companies_title"
@@ -27,9 +27,9 @@
         android:text="@string/empty_product_small_list_msg"
         android:textStyle="normal"/>
 
-    <me.raptor.resellingapp.view.ProductSmallList
+    <me.raptor.resellingapp.view.ProductList
         android:id="@+id/productsList"
         android:background="#FFFFFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

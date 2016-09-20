@@ -9,10 +9,10 @@ import android.widget.Toast;
 import me.raptor.resellingapp.R;
 import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
-import me.raptor.resellingapp.view.ProductSmallList;
+import me.raptor.resellingapp.view.ProductList;
 import me.raptor.resellingapp.view.PurchaseList;
 
-public class PurchasesActivity extends AppCompatActivity implements PurchaseList.PurchaseListListener, ProductSmallList.ProductSmallListListener{
+public class PurchasesActivity extends AppCompatActivity implements PurchaseList.PurchaseListListener, ProductList.ProductListListener{
 
     PurchaseListFragment plf;
     PurchaseDetailFragment pdf;
@@ -104,5 +104,6 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
     @Override
     public void onProductListChanged() {
         pdf.onProductListChanged();
+        Toast.makeText(getApplicationContext(), "CALLING...", Toast.LENGTH_SHORT).show();
     }
 }

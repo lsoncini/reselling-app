@@ -15,6 +15,7 @@ import me.raptor.resellingapp.model.Purchase;
 import me.raptor.resellingapp.store.CategoryStore;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
+import me.raptor.resellingapp.view.ProductList;
 
 public class ProductDetailFragment extends LoadingFragment {
 
@@ -27,6 +28,7 @@ public class ProductDetailFragment extends LoadingFragment {
 
     public Product product;
     boolean productChanged;
+    ProductList.ProductListListener listener;
 
     @Override
     public String getTitle() {
@@ -37,6 +39,7 @@ public class ProductDetailFragment extends LoadingFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
         ButterKnife.bind(this, view);
+        this.setProductsListener((ProductList.ProductListListener) getActivity());
         return view;
     }
 
@@ -76,9 +79,17 @@ public class ProductDetailFragment extends LoadingFragment {
     public void onResume() {
         super.onResume();
         setProduct(product);
+        getActivity().invalidateOptionsMenu();
     }
 
     public void savePurchase() {
         ProductStore.getInstance(getContext()).insertProduct(product);
+        listener.onProductListChanged();
     }
+
+
+    public void setProductsListener(ProductList.ProductListListener l){
+        listener = l;
+    }
+
 }

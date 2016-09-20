@@ -18,13 +18,13 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
-import me.raptor.resellingapp.view.ProductSmallList;
+import me.raptor.resellingapp.view.ProductList;
 import me.raptor.resellingapp.view.PurchaseList;
 
 /**
  * Created by Lucas on 19/09/2016.
  */
-public class PurchaseDetailFragment extends LoadingFragment implements ProductSmallList.ProductSmallListListener{
+public class PurchaseDetailFragment extends LoadingFragment implements ProductList.ProductListListener{
     public String getTitle() {
         return purchase ==null?"Purchase Details": getResources().getString(R.string.purchase) + " "+ purchase.getPurchaseID();
     }
@@ -37,8 +37,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductSm
     @BindView(R.id.description_title) TextView data_title;
     @BindView(R.id.description) TextView data;
     @BindView(R.id.product_list_empty_view) TextView emptyView;
-    @BindView(R.id.productsList)
-    ProductSmallList productList;
+    @BindView(R.id.productsList) ProductList productList;
 
     @BindString(R.string.purchase_data_title) String data_title_string;
     @BindString(R.string.date_title) String date_title;
@@ -49,7 +48,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductSm
         View view = inflater.inflate(R.layout.fragment_purchase_detail, container, false);
         ButterKnife.bind(this, view);
         sdf = new SimpleDateFormat("dd/MM/yy");
-        productList.setListener((ProductSmallList.ProductSmallListListener) getActivity());
+        productList.setListener((ProductList.ProductListListener) getActivity());
         return view;
     }
 
@@ -76,6 +75,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductSm
 
     public void savePurchase() {
         PurchaseStore.getInstance(getContext()).insertPurchase(purchase);
+        listener.onPurchasesListChanged();
     }
 
     public void setPurchasesListener(PurchaseList.PurchaseListListener l){
@@ -115,6 +115,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductSm
     public void onProductListChanged() {
         products.clear();
         products.addAll(ProductStore.getInstance(getContext()).getProductsForPurchase(purchase));
+        productList.clear();
         updateView();
     }
 }

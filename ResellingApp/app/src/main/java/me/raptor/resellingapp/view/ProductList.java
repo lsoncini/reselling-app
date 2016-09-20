@@ -47,7 +47,7 @@ public class ProductList extends FrameLayout {
     }
 
     private void init() {
-        addView(inflate(getContext(), R.layout.product_list, null));
+        addView(inflate(getContext(), R.layout.product_small_list, null));
         ButterKnife.bind(this);
 
         list.setFocusable(false);

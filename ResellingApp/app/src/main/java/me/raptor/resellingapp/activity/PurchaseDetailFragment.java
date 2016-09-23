@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
     @BindString(R.string.purchase_data_title) String data_title_string;
     @BindString(R.string.date_title) String date_title;
     @BindString(R.string.product_count_title) String count_title;
+    @BindString(R.string.investment_title) String investment_title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +68,14 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         getActivity().invalidateOptionsMenu();
     }
 
+    public PurchaseDetailFragment newPurchase(){
+        purchase = new Purchase(PurchaseStore.getInstance(getContext()).getNextID(), new Date());
+        products = new ArrayList<>();
+        savePurchase();
+        updateView();
+        return this;
+    }
+
     public PurchaseDetailFragment setPurchase(Purchase purchase) {
         this.purchase = purchase;
         this.products = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
@@ -75,7 +85,8 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
 
     public void savePurchase() {
         PurchaseStore.getInstance(getContext()).insertPurchase(purchase);
-        listener.onPurchasesListChanged();
+        if(listener != null)
+            listener.onPurchasesListChanged();
     }
 
     public void setPurchasesListener(PurchaseList.PurchaseListListener l){
@@ -85,10 +96,6 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
     private void updateView() {
         if (getView() == null) return;
         showSpinner();
-        if(purchase == null) {
-            purchase = new Purchase(PurchaseStore.getInstance(getContext()).getNextID(), new Date());
-            products = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
-        }
         loadFullPurchase();
         hideSpinner();
     }
@@ -102,8 +109,12 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         }
         this.data_title.setText(data_title_string);
         Integer productCount = ProductStore.getInstance(getContext()).getProductCountForPurchase(purchase);
-        StringBuilder msg = new StringBuilder(date_title).append(sdf.format(purchase.getDate())).append('\n').append(count_title).append(productCount);
-        this.data.setText(msg.toString());
+        Integer investment = ProductStore.getInstance(getContext()).getInvestmentForPurchase(purchase);
+        String date_msg = date_title + ' ' + sdf.format(purchase.getDate()) + '\n';
+        String count_msg = count_title + ' ' + productCount + '\n';
+        String investment_msg = investment_title + " $" + investment;
+        String msg = date_msg + count_msg + investment_msg;
+        this.data.setText(msg);
     }
 
     @Override
@@ -117,5 +128,9 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         products.addAll(ProductStore.getInstance(getContext()).getProductsForPurchase(purchase));
         productList.clear();
         updateView();
+    }
+
+    public Purchase getPurchase(){
+        return purchase;
     }
 }

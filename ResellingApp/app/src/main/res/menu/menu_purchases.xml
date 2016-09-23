@@ -14,4 +14,10 @@
         android:icon="@drawable/save"
         android:title="@string/saveButton"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_edit_button"
+        android:orderInCategory="100"
+        android:icon="@drawable/edit"
+        android:title="@string/editButton"
+        app:showAsAction="always" />
 </menu>

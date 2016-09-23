@@ -21,4 +21,20 @@
     <string name="empty_product_small_list_msg">No hay productos aún. Puede agregar nuevos productos con el botón + arriba.</string>
     <string name="newButton">Nuevo</string>
     <string name="saveButton">Guardar</string>
+    <string name="investment_title">Inversión:</string>
+    <string name="new_product_title">Nuevo Producto</string>
+    <string name="product_edition_title">Edición de producto</string>
+    <string name="bad_arguments_msg">Todos los campos requeridos(*) deben ser completados</string>
+    <string name="editButton">Editar</string>
+    <string name="edit_product_cancel">Cancelar</string>
+    <string name="edit_product_category">Categoría*:</string>
+    <string name="edit_product_category_msg">Categoría</string>
+    <string name="edit_product_confirm">Confirmar</string>
+    <string name="edit_product_name">Nombre*:</string>
+    <string name="edit_product_name_msg">Nombre del producto</string>
+    <string name="edit_product_purchase_price">Precio de compra*:</string>
+    <string name="edit_product_purchase_price_msg">Precio de compra</string>
+    <string name="edit_product_sale_price">Precio de venta:</string>
+    <string name="edit_product_sale_price_msg">Precio de venta</string>
+    <string name="new_category">Nueva Categoría</string>
 </resources>

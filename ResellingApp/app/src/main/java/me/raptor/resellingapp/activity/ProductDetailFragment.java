@@ -47,6 +47,7 @@ public class ProductDetailFragment extends LoadingFragment {
     public void onStart() {
         super.onStart();
         updateView();
+        getActivity().invalidateOptionsMenu();
     }
 
     public ProductDetailFragment setProduct(Product product) {
@@ -69,7 +70,7 @@ public class ProductDetailFragment extends LoadingFragment {
         }
 
         name.setText(product.getName());
-        String s = "$" + Math.ceil(product.getSalePrice());
+        String s = "$" + (int)Math.ceil(product.getSalePrice());
         price.setText(s);
         category.setText(product.getCategory());
         productChanged = false;
@@ -82,7 +83,7 @@ public class ProductDetailFragment extends LoadingFragment {
         getActivity().invalidateOptionsMenu();
     }
 
-    public void savePurchase() {
+    public void saveProduct() {
         ProductStore.getInstance(getContext()).insertProduct(product);
         listener.onProductListChanged();
     }

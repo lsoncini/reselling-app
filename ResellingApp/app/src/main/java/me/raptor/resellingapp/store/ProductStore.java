@@ -193,4 +193,17 @@ public class ProductStore extends RaptorStore {
         }
         return products_list;
     }
+
+    public Integer getNextID(){
+        return numberOfRows()+1;
+    }
+
+    public Integer getInvestmentForPurchase(Purchase purchase) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select total(" + PRODUCTS_COLUMN_PURCHASE_PRICE + ") from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_PURCHASEID + "="+purchase.getPurchaseID(), null );
+        res.moveToFirst();
+        return res.getInt(0);
+    }
+
+
 }

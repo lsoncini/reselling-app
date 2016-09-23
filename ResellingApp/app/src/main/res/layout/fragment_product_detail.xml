@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:background="@drawable/counter_bg"
+                    android:background="@drawable/counter_red_bg"
                     android:textColor="#ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true" />

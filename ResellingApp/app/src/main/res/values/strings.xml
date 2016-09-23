@@ -16,8 +16,24 @@
     <string name="add_purchases_sub">You can add your purchases with the + button on top.</string>
 
     <string name="purchase_data_title">Information</string>
-    <string name="date_title">Purchase date: </string>
-    <string name="product_count_title">Amount of products: </string>
+    <string name="date_title">Purchase date:</string>
+    <string name="product_count_title">Amount of products:</string>
+    <string name="investment_title">Investment:</string>
+    <string name="product_edition_title">Product Edition</string>
+    <string name="new_product_title">New Product</string>
+    <string name="new_category">New Category</string>
+    <string name="bad_arguments_msg">All Requested fields(*) have to be completed.</string>
+    <string name="edit_product_name">Name*:</string>
+    <string name="edit_product_name_msg">Product name</string>
+    <string name="edit_product_category">Category*:</string>
+    <string name="edit_product_category_msg">Category name</string>
+    <string name="edit_product_purchase_price">Purchase Price*:</string>
+    <string name="edit_product_purchase_price_msg">Purchase Price</string>
+    <string name="edit_product_sale_price">Sale Price:</string>
+    <string name="edit_product_sale_price_msg">Sale Price</string>
+    <string name="edit_product_confirm">Confirm</string>
+    <string name="edit_product_cancel">Cancel</string>
+
 
     <string name="no_products_yet">No products yet.</string>
     <string name="product">Product</string>
@@ -26,4 +42,5 @@
     <string name="empty_product_small_list_msg">No products yet. You can add new products with the + button on top.</string>
     <string name="saveButton">Save</string>
     <string name="newButton">New</string>
+    <string name="editButton">Edit</string>
 </resources>

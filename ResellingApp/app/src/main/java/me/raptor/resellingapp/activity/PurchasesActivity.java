@@ -35,15 +35,23 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
         android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         MenuItem saveItem = menu.findItem(R.id.action_save_button);
         MenuItem newItem = menu.findItem(R.id.action_new_button);
+        MenuItem editItem = menu.findItem(R.id.action_edit_button);
         if(fragment instanceof PurchaseListFragment){
             saveItem.setVisible(false);
             newItem.setVisible(true);
+            editItem.setVisible(false);
         } else if(fragment instanceof PurchaseDetailFragment){
-            saveItem.setVisible(true);
+            saveItem.setVisible(false);
             newItem.setVisible(true);
+            editItem.setVisible(false);
         } else if (fragment instanceof ProductDetailFragment){
-            saveItem.setVisible(true);
+            saveItem.setVisible(false);
             newItem.setVisible(false);
+            editItem.setVisible(true);
+        } else if (fragment instanceof ProductEditFragment){
+            saveItem.setVisible(false);
+            newItem.setVisible(false);
+            editItem.setVisible(false);
         }
         return true;
     }
@@ -71,26 +79,32 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if(item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         if(fragment instanceof PurchaseListFragment) {
             if (item.getItemId() == R.id.action_new_button) {
                 Toast.makeText(getApplicationContext(), "nueva compra", Toast.LENGTH_SHORT).show();
-                pdf = new PurchaseDetailFragment();
+                pdf = new PurchaseDetailFragment().newPurchase();
+                onPurchasesListChanged();
                 pdf.setPurchasesListener(this);
                 navTo(pdf);
             }
         } else if(fragment instanceof PurchaseDetailFragment){
             if (item.getItemId() == R.id.action_new_button) {
-                onProductSelected(null);
+                ProductEditFragment f  = new ProductEditFragment();
+                f.setPurchase(((PurchaseDetailFragment)fragment).getPurchase());
+                f.setNew(true);
+                navTo(f);
                 Toast.makeText(getApplicationContext(), "nuevo producto", Toast.LENGTH_SHORT).show();
             }
-            if (item.getItemId() == R.id.action_save_button) {
-                ((PurchaseDetailFragment) fragment).savePurchase();
-                Toast.makeText(getApplicationContext(), "compra guardada", Toast.LENGTH_SHORT).show();
-            }
         } else if(fragment instanceof ProductDetailFragment){
-            if (item.getItemId() == R.id.action_save_button) {
-                ((ProductDetailFragment) fragment).savePurchase();
-                Toast.makeText(getApplicationContext(), "producto guardado", Toast.LENGTH_SHORT).show();
+            if (item.getItemId() == R.id.action_edit_button) {
+                ProductEditFragment f = new ProductEditFragment();
+                f.setProduct(((ProductDetailFragment)fragment).product);
+                navTo(f);
+                Toast.makeText(getApplicationContext(), "editando producto", Toast.LENGTH_SHORT).show();
             }
         }
         return true;

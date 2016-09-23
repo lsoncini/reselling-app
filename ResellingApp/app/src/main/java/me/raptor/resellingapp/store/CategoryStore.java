@@ -73,4 +73,12 @@ public class CategoryStore extends RaptorStore {
         }
         return result_list;
     }
+
+    public boolean hasCategory(String category) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select count(*) from " + CATEGORIES_TABLE_NAME + " where " + CATEGORY_COLUMN_NAME + "=?", new String[] {category} );
+        res.moveToFirst();
+        return !(res.getInt(0) == 0);
+    }
 }

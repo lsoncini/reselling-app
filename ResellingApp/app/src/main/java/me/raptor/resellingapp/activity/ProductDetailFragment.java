@@ -17,7 +17,7 @@ import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
 import me.raptor.resellingapp.view.ProductList;
 
-public class ProductDetailFragment extends LoadingFragment {
+public class ProductDetailFragment extends LoadingFragment implements ProductEditFragment.OnProductChangeListener{
 
     @BindView(R.id.name)
     TextView name;
@@ -93,4 +93,9 @@ public class ProductDetailFragment extends LoadingFragment {
         listener = l;
     }
 
+    @Override
+    public void onProductChanged(Product product) {
+        setProduct(product);
+        listener.onProductListChanged();
+    }
 }

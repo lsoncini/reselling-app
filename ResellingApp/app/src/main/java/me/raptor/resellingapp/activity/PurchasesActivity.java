@@ -95,6 +95,7 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
             if (item.getItemId() == R.id.action_new_button) {
                 ProductEditFragment f  = new ProductEditFragment();
                 f.setPurchase(((PurchaseDetailFragment)fragment).getPurchase());
+                f.setProductListener((PurchaseDetailFragment)fragment);
                 f.setNew(true);
                 navTo(f);
                 Toast.makeText(getApplicationContext(), "nuevo producto", Toast.LENGTH_SHORT).show();
@@ -103,6 +104,7 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
             if (item.getItemId() == R.id.action_edit_button) {
                 ProductEditFragment f = new ProductEditFragment();
                 f.setProduct(((ProductDetailFragment)fragment).product);
+                f.setProductListener((ProductDetailFragment)fragment);
                 navTo(f);
                 Toast.makeText(getApplicationContext(), "editando producto", Toast.LENGTH_SHORT).show();
             }

@@ -22,7 +22,6 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
 import me.raptor.resellingapp.store.CategoryStore;
 import me.raptor.resellingapp.store.ProductStore;
-import me.raptor.resellingapp.view.ProductList;
 
 /**
  * Created by Lucas on 23/09/2016.
@@ -53,13 +52,17 @@ public class ProductEditFragment extends LoadingFragment {
     private boolean isNew = false;
     private Purchase purchase;
     private Integer productID = null;
-    private ProductList.ProductListListener listener;
+    private OnProductChangeListener listener;
     private List<String> categories;
     private ProductStore productStore;
     private CategoryStore categoryStore;
 
     private Product product;
 
+
+    interface OnProductChangeListener{
+        public void onProductChanged(Product product);
+    }
 
     @Override
     public String getTitle() {
@@ -79,7 +82,6 @@ public class ProductEditFragment extends LoadingFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_edition, container, false);
         ButterKnife.bind(this, view);
-        this.setProductsListener((ProductList.ProductListListener) getActivity());
         this.categoryStore = CategoryStore.getInstance(getContext());
         this.categories = categoryStore.getCategories();
         categories.add(new_category);
@@ -170,7 +172,8 @@ public class ProductEditFragment extends LoadingFragment {
                 }else{
                     productStore.updateProduct(product);
                 }
-                listener.onProductListChanged();
+                listener.onProductChanged(product);
+                getActivity().onBackPressed();
             }
         });
 
@@ -191,7 +194,7 @@ public class ProductEditFragment extends LoadingFragment {
         getActivity().invalidateOptionsMenu();
     }
 
-    public void setProductsListener(ProductList.ProductListListener l){
+    public void setProductListener(OnProductChangeListener l){
         listener = l;
     }
 }

@@ -25,7 +25,7 @@ import me.raptor.resellingapp.view.PurchaseList;
 /**
  * Created by Lucas on 19/09/2016.
  */
-public class PurchaseDetailFragment extends LoadingFragment implements ProductList.ProductListListener{
+public class PurchaseDetailFragment extends LoadingFragment implements ProductList.ProductListListener, ProductEditFragment.OnProductChangeListener{
     public String getTitle() {
         return purchase ==null?"Purchase Details": getResources().getString(R.string.purchase) + " "+ purchase.getPurchaseID();
     }
@@ -128,9 +128,15 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         products.addAll(ProductStore.getInstance(getContext()).getProductsForPurchase(purchase));
         productList.clear();
         updateView();
+        listener.onPurchasesListChanged();
     }
 
     public Purchase getPurchase(){
         return purchase;
+    }
+
+    @Override
+    public void onProductChanged(Product product) {
+        onProductListChanged();
     }
 }

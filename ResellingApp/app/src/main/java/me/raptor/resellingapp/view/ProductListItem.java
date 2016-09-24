@@ -48,7 +48,7 @@ public class ProductListItem extends FrameLayout{
     void setProduct(Product product) {
         this.product = product;
         name.setText(product.getName());
-        Integer price_value = (int)Math.ceil(product.getSalePrice());
+        Integer price_value = (int)Math.ceil(product.getPurchasePrice());
         String msg = "$" + price_value;
         price.setText(msg);
     }

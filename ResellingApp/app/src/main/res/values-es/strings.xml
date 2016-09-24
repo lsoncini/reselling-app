@@ -29,12 +29,15 @@
     <string name="edit_product_cancel">Cancelar</string>
     <string name="edit_product_category">Categoría*:</string>
     <string name="edit_product_category_msg">Categoría</string>
-    <string name="edit_product_confirm">Confirmar</string>
+    <string name="edit_product_confirm">Aceptar</string>
     <string name="edit_product_name">Nombre*:</string>
-    <string name="edit_product_name_msg">Nombre del producto</string>
+    <string name="edit_product_name_msg">Nombre</string>
     <string name="edit_product_purchase_price">Precio de compra*:</string>
-    <string name="edit_product_purchase_price_msg">Precio de compra</string>
+    <string name="edit_product_purchase_price_msg">100.00</string>
     <string name="edit_product_sale_price">Precio de venta:</string>
-    <string name="edit_product_sale_price_msg">Precio de venta</string>
+    <string name="edit_product_sale_price_msg">100.00</string>
     <string name="new_category">Nueva Categoría</string>
+    <string name="no_category_msg">Ingrese un nombre de categoría.</string>
+    <string name="no_name_msg">Ingrese un nombre para el producto.</string>
+    <string name="no_pp_msg">Ingrese un precio de compra para el producto.</string>
 </resources>

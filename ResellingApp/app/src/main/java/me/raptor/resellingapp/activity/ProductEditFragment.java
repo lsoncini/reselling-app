@@ -33,10 +33,13 @@ public class ProductEditFragment extends LoadingFragment {
     @BindString(R.string.new_product_title) String new_title;
     @BindString(R.string.new_category) String new_category;
     @BindString(R.string.edit_product_name_msg) String nameDefault;
-    @BindString(R.string.edit_product_category_msg) String categoryDefault;
+    @BindString(R.string.edit_product_category_msg) String categoryHint;
     @BindString(R.string.edit_product_purchase_price_msg) String purchasePriceDefault;
     @BindString(R.string.edit_product_sale_price_msg) String salePriceDefault;
     @BindString(R.string.bad_arguments_msg) String bad_arguments_msg;
+    @BindString(R.string.no_name_msg) String no_name_msg;
+    @BindString(R.string.no_category_msg) String no_category_msg;
+    @BindString(R.string.no_pp_msg) String no_pp_msg;
 
 
     @BindView(R.id.name) EditText nameTV;
@@ -114,7 +117,8 @@ public class ProductEditFragment extends LoadingFragment {
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         if(product!=null) {
             productID = product.getProductID();
@@ -133,21 +137,28 @@ public class ProductEditFragment extends LoadingFragment {
             public void onClick(View v) {
                 productID = productID != null ? productID : productStore.getNextID();
                 String nameTV_value = nameTV.getText().toString();
-                String name = (nameTV_value.equals(nameDefault)) ? null : nameTV_value;
+                String name = (nameTV_value.isEmpty()) ? null : nameTV_value;
                 String categoryTV_value = categoryTV.getText().toString();
                 String categorySpinnerValue = (String) categorySpinner.getSelectedItem();
                 String category = (categoryTV.getVisibility() == View.VISIBLE) ? categoryTV_value : categorySpinnerValue;
-                if (category.equals(categoryDefault))
+                if (category.isEmpty())
                     category = null;
                 String ppTV_value = purchasePriceTV.getText().toString();
-                Double pp = (ppTV_value.equals(purchasePriceDefault)) ? null : Double.valueOf(ppTV_value);
+                Double pp = (ppTV_value.isEmpty()) ? null : Double.valueOf(ppTV_value);
                 String spTV_value = salePriceTV.getText().toString();
-                Double sp = (spTV_value.equals(salePriceDefault)) ? null : Double.valueOf(spTV_value);
+                Double sp = (spTV_value.isEmpty()) ? null : Double.valueOf(spTV_value);
 
-                if(name == null || category == null | pp == null){
+                if(name == null || category == null || pp == null){
                     Toast.makeText(getContext(),bad_arguments_msg,Toast.LENGTH_LONG).show();
+                    if (name == null)
+                        Toast.makeText(getContext(),no_name_msg,Toast.LENGTH_LONG).show();
+                    if (category == null)
+                        Toast.makeText(getContext(),no_category_msg,Toast.LENGTH_LONG).show();
+                    if (pp == null)
+                        Toast.makeText(getContext(),no_pp_msg,Toast.LENGTH_LONG).show();
                     return;
                 }
+
 
                 Product product = new Product(productID, name, category, null, null, purchase, pp, sp);
 

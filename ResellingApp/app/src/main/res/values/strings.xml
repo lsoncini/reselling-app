@@ -23,14 +23,18 @@
     <string name="new_product_title">New Product</string>
     <string name="new_category">New Category</string>
     <string name="bad_arguments_msg">All Requested fields(*) have to be completed.</string>
+    <string name="no_name_msg">You must give a name to your product.</string>
+    <string name="no_pp_msg">You must enter purchase price for your product.</string>
+    <string name="no_category_msg">Please choose a category or add a new one.</string>
+
     <string name="edit_product_name">Name*:</string>
     <string name="edit_product_name_msg">Product name</string>
     <string name="edit_product_category">Category*:</string>
     <string name="edit_product_category_msg">Category name</string>
     <string name="edit_product_purchase_price">Purchase Price*:</string>
-    <string name="edit_product_purchase_price_msg">Purchase Price</string>
+    <string name="edit_product_purchase_price_msg">100.00</string>
     <string name="edit_product_sale_price">Sale Price:</string>
-    <string name="edit_product_sale_price_msg">Sale Price</string>
+    <string name="edit_product_sale_price_msg">100.00</string>
     <string name="edit_product_confirm">Confirm</string>
     <string name="edit_product_cancel">Cancel</string>
 

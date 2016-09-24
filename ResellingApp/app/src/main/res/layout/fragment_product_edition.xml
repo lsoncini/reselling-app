@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fab8b8"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="#fab8b8"
     android:padding="10dp">
 
     <RelativeLayout
@@ -100,6 +104,7 @@
             android:layout_marginRight="5dp"
             android:paddingLeft="5dp"
             android:textStyle="italic"
+
             android:background="@drawable/item_bg"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -231,12 +236,13 @@
             android:layout_margin="10dp"
             android:padding="15dp"
             android:textStyle="bold"
-            android:background="@drawable/counter_grey_bg"
+            android:background="@drawable/counter_red_bg"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             style="@style/PrincipalTextStyle"
-            android:text="@string/edit_product_confirm" />
+            android:text="@string/edit_product_confirm"
+            android:textColor="@android:color/white" />
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
@@ -244,12 +250,14 @@
             android:layout_margin="10dp"
             android:padding="15dp"
             android:textStyle="bold"
-            android:background="@drawable/counter_grey_bg"
+            android:background="@drawable/counter_red_bg"
             android:layout_toLeftOf="@id/ok_button"
             android:layout_centerVertical="true"
             style="@style/PrincipalTextStyle"
-            android:text="@string/edit_product_cancel" />
+            android:text="@string/edit_product_cancel"
+            android:textColor="@android:color/white"/>
     </RelativeLayout>
 
 
 </LinearLayout>
+</ScrollView>

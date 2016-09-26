@@ -16,23 +16,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.raptor.resellingapp.R;
 import me.raptor.resellingapp.model.Product;
-import me.raptor.resellingapp.model.Purchase;
+import me.raptor.resellingapp.model.Sale;
 import me.raptor.resellingapp.store.ProductStore;
-import me.raptor.resellingapp.store.PurchaseStore;
+import me.raptor.resellingapp.store.SaleStore;
 import me.raptor.resellingapp.view.ProductList;
-import me.raptor.resellingapp.view.PurchaseList;
+import me.raptor.resellingapp.view.SaleList;
 
 /**
- * Created by Lucas on 19/09/2016.
+ * Created by Lucas on 25/09/2016.
  */
-public class PurchaseDetailFragment extends LoadingFragment implements ProductList.ProductListListener, OnProductChangeListener{
+public class SaleDetailFragment extends LoadingFragment implements ProductList.ProductListListener, OnProductChangeListener{
     public String getTitle() {
-        return purchase ==null?"Purchase Details": getResources().getString(R.string.purchase) + " "+ purchase.getPurchaseID();
+        return sale ==null?"Sale Details": getResources().getString(R.string.sale) + " "+ sale.getSaleID();
     }
 
-    public Purchase purchase;
+    public Sale sale;
     public List<Product> products;
-    public PurchaseList.PurchaseListListener listener;
+    public SaleList.SaleListListener listener;
     private SimpleDateFormat sdf;
 
     @BindView(R.id.description_title) TextView data_title;
@@ -41,9 +41,10 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
     @BindView(R.id.productsList) ProductList productList;
 
     @BindString(R.string.information_title) String data_title_string;
-    @BindString(R.string.purchase_date_title) String date_title;
+    @BindString(R.string.sale_date_title) String date_title;
     @BindString(R.string.product_count_title) String count_title;
-    @BindString(R.string.investment_title) String investment_title;
+    @BindString(R.string.total_sales_title) String total_sales_title;
+    @BindString(R.string.group_title) String group_title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,39 +69,39 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         getActivity().invalidateOptionsMenu();
     }
 
-    public PurchaseDetailFragment newPurchase(){
-        purchase = new Purchase(PurchaseStore.getInstance(getContext()).getNextID(), new Date());
+    public SaleDetailFragment newSale(){
+        sale = new Sale(SaleStore.getInstance(getContext()).getNextID(), new Date(),null);
         products = new ArrayList<>();
-        savePurchase();
+        saveSale();
         updateView();
         return this;
     }
 
-    public PurchaseDetailFragment setPurchase(Purchase purchase) {
-        this.purchase = purchase;
-        this.products = ProductStore.getInstance(getContext()).getProductsForPurchase(purchase);
+    public SaleDetailFragment setSale(Sale sale) {
+        this.sale = sale;
+        this.products = ProductStore.getInstance(getContext()).getProductsForSale(sale);
         updateView();
         return this;
     }
 
-    public void savePurchase() {
-        PurchaseStore.getInstance(getContext()).insertPurchase(purchase);
+    public void saveSale() {
+        SaleStore.getInstance(getContext()).insertSale(sale);
         if(listener != null)
-            listener.onPurchasesListChanged();
+            listener.onSalesListChanged();
     }
 
-    public void setPurchasesListener(PurchaseList.PurchaseListListener l){
+    public void setSalesListener(SaleList.SaleListListener l){
         listener = l;
     }
 
     private void updateView() {
         if (getView() == null) return;
         showSpinner();
-        loadFullPurchase();
+        loadFullSale();
         hideSpinner();
     }
 
-    private void loadFullPurchase() {
+    private void loadFullSale() {
         if (products.size() == 0) {
             emptyView.setVisibility(View.VISIBLE);
         } else {
@@ -108,12 +109,13 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
             emptyView.setVisibility(View.GONE);
         }
         this.data_title.setText(data_title_string);
-        Integer productCount = ProductStore.getInstance(getContext()).getProductCountForPurchase(purchase);
-        Integer investment = ProductStore.getInstance(getContext()).getInvestmentForPurchase(purchase);
-        String date_msg = date_title + ' ' + sdf.format(purchase.getDate()) + '\n';
+        Integer productCount = ProductStore.getInstance(getContext()).getProductCountForSale(sale);
+        Integer total_sale = ProductStore.getInstance(getContext()).getTotalForSale(sale);
+        String date_msg = date_title + ' ' + sdf.format(sale.getDate()) + '\n';
+        String group_msg = group_title + ' ' + sale.getGroup() + '\n';
         String count_msg = count_title + ' ' + productCount + '\n';
-        String investment_msg = investment_title + " $" + investment;
-        String msg = date_msg + count_msg + investment_msg;
+        String total_msg = total_sales_title + " $" + total_sale;
+        String msg = date_msg + group_msg + count_msg + total_msg;
         this.data.setText(msg);
     }
 
@@ -125,14 +127,14 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
     @Override
     public void onProductListChanged() {
         products.clear();
-        products.addAll(ProductStore.getInstance(getContext()).getProductsForPurchase(purchase));
+        products.addAll(ProductStore.getInstance(getContext()).getProductsForSale(sale));
         productList.clear();
         updateView();
-        listener.onPurchasesListChanged();
+        listener.onSalesListChanged();
     }
 
-    public Purchase getPurchase(){
-        return purchase;
+    public Sale getSale(){
+        return sale;
     }
 
     @Override

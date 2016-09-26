@@ -126,4 +126,33 @@ public class ClientStore extends RaptorStore {
         }
         return clients_list;
     }
+
+    public List<Client> getClientsInGroup(String group) {
+        List<Client> clients_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + CLIENTS_TABLE_NAME + " where " + CLIENTS_COLUMN_GROUP + "=?", new String[] {group} );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            clients_list.add(new Client(res.getInt(res.getColumnIndex(CLIENTS_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(CLIENTS_COLUMN_NAME)),
+                    res.getString(res.getColumnIndex(CLIENTS_COLUMN_PHONE)),
+                    res.getString(res.getColumnIndex(CLIENTS_COLUMN_EMAIL)),
+                    group));
+            res.moveToNext();
+        }
+        return clients_list;
+    }
+
+    public boolean hasClient(String clientName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select count(*) from " + CLIENTS_TABLE_NAME + " where " + CLIENTS_COLUMN_NAME + "=?", new String[] {clientName} );
+        res.moveToFirst();
+        return !(res.getInt(0) == 0);
+    }
+
+    public Integer getNextID() {
+        return numberOfRows() + 1;
+    }
 }

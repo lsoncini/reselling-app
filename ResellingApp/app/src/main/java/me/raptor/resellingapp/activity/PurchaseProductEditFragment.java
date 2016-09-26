@@ -26,7 +26,7 @@ import me.raptor.resellingapp.store.ProductStore;
 /**
  * Created by Lucas on 23/09/2016.
  */
-public class ProductEditFragment extends LoadingFragment {
+public class PurchaseProductEditFragment extends LoadingFragment {
 
     @BindString(R.string.product_edition_title) String editing_title;
     @BindString(R.string.new_product_title) String new_title;
@@ -36,7 +36,7 @@ public class ProductEditFragment extends LoadingFragment {
     @BindString(R.string.edit_product_purchase_price_msg) String purchasePriceDefault;
     @BindString(R.string.edit_product_sale_price_msg) String salePriceDefault;
     @BindString(R.string.bad_arguments_msg) String bad_arguments_msg;
-    @BindString(R.string.no_name_msg) String no_name_msg;
+    @BindString(R.string.purchase_edition_no_name_msg) String no_name_msg;
     @BindString(R.string.no_category_msg) String no_category_msg;
     @BindString(R.string.no_pp_msg) String no_pp_msg;
 
@@ -59,11 +59,6 @@ public class ProductEditFragment extends LoadingFragment {
 
     private Product product;
 
-
-    interface OnProductChangeListener{
-        public void onProductChanged(Product product);
-    }
-
     @Override
     public String getTitle() {
         return isNew ? new_title : editing_title;
@@ -80,7 +75,7 @@ public class ProductEditFragment extends LoadingFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_edition, container, false);
+        View view = inflater.inflate(R.layout.fragment_purchase_product_edition, container, false);
         ButterKnife.bind(this, view);
         this.categoryStore = CategoryStore.getInstance(getContext());
         this.categories = categoryStore.getCategories();
@@ -96,7 +91,7 @@ public class ProductEditFragment extends LoadingFragment {
         getActivity().invalidateOptionsMenu();
     }
 
-    public ProductEditFragment setProduct(Product product) {
+    public PurchaseProductEditFragment setProduct(Product product) {
         this.product = product;
 
         updateView();

@@ -32,7 +32,18 @@
         <activity
             android:name=".activity.PurchasesActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_purchase_list"
+            android:label="@string/title_activity_purchases"
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.raptor.resellingapp.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.SalesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_sales"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >

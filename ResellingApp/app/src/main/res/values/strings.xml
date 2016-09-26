@@ -10,20 +10,28 @@
     <string name="clients_main_title">Clients</string>
 
     <string name="purchase">Purchase</string>
-    <string name="title_activity_purchase_list">PurchaseListActivity</string>
+    <string name="title_activity_purchases">PurchasesActivity</string>
+    <string name="title_activity_sales">SalesActivity</string>
 
     <string name="add_purchases_msg">Add your purchases!</string>
     <string name="add_purchases_sub">You can add your purchases with the + button on top.</string>
 
-    <string name="purchase_data_title">Information</string>
-    <string name="date_title">Purchase date:</string>
+    <string name="add_sales_msg">Add your sales!</string>
+    <string name="add_sales_sub">You can add your sa,es with the + button on top.</string>
+
+    <string name="information_title">Information</string>
+    <string name="purchase_date_title">Purchase date:</string>
+    <string name="sale_date_title">Sale date:</string>
     <string name="product_count_title">Amount of products:</string>
     <string name="investment_title">Investment:</string>
+    <string name="total_sales_title">Total sale:</string>
+    <string name="group_title">Group:</string>
+
     <string name="product_edition_title">Product Edition</string>
     <string name="new_product_title">New Product</string>
     <string name="new_category">New Category</string>
     <string name="bad_arguments_msg">All Requested fields(*) have to be completed.</string>
-    <string name="no_name_msg">You must give a name to your product.</string>
+    <string name="purchase_edition_no_name_msg">You must give a name to your product.</string>
     <string name="no_pp_msg">You must enter purchase price for your product.</string>
     <string name="no_category_msg">Please choose a category or add a new one.</string>
 
@@ -31,13 +39,30 @@
     <string name="edit_product_name_msg">Product name</string>
     <string name="edit_product_category">Category*:</string>
     <string name="edit_product_category_msg">Category name</string>
+    <string name="edit_product_client">Client*:</string>
+    <string name="edit_product_client_msg">Client name</string>
     <string name="edit_product_purchase_price">Purchase Price*:</string>
     <string name="edit_product_purchase_price_msg">100.00</string>
     <string name="edit_product_sale_price">Sale Price:</string>
     <string name="edit_product_sale_price_msg">100.00</string>
     <string name="edit_product_confirm">Confirm</string>
     <string name="edit_product_cancel">Cancel</string>
+    <string name="edit_sale_group">Group*:</string>
+    <string name="edit_sale_group_msg">Group</string>
 
+    <string name="sale_edition_title">Sale Edition</string>
+    <string name="new_sale_title">New Sale</string>
+    <string name="sale_edition_no_name_msg">You must choose a product to sale.</string>
+    <string name="no_buyer_msg">Please choose a client or add a new one.</string>
+    <string name="no_sp_msg">You must enter sale price for your product.</string>
+    <string name="no_group_msg">Please choose a group or add a new one.</string>
+    <string name="new_client">New Client</string>
+    <string name="no_products_on_sale">No products on sale.</string>
+
+    <string name="sale">Sale</string>
+
+    <string name="date_format">MM-dd</string>
+    <string name="date_format_2">MM/dd/yy</string>
 
     <string name="no_products_yet">No products yet.</string>
     <string name="product">Product</string>
@@ -47,4 +72,7 @@
     <string name="saveButton">Save</string>
     <string name="newButton">New</string>
     <string name="editButton">Edit</string>
+
+    <string name="new_group">New Group</string>
+    <string name="choose_group">Choose Group</string>
 </resources>

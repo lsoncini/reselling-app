@@ -33,9 +33,8 @@ public class MainActivity extends Activity {
         });
         sales.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Sales selected",Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(MainActivity.this, SalesActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, SalesActivity.class);
+                startActivity(intent);
             }
         });
         stats.setOnClickListener(new View.OnClickListener() {

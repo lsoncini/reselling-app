@@ -17,7 +17,7 @@ import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
 import me.raptor.resellingapp.view.ProductList;
 
-public class ProductDetailFragment extends LoadingFragment implements ProductEditFragment.OnProductChangeListener{
+public class ProductDetailFragment extends LoadingFragment implements OnProductChangeListener{
 
     @BindView(R.id.name)
     TextView name;

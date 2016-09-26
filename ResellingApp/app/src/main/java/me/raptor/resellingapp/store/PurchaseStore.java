@@ -122,7 +122,7 @@ public class PurchaseStore extends RaptorStore {
         List<Purchase> purchases_list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + PURCHASES_TABLE_NAME + " order by " + PURCHASES_COLUMN_ID, null );
+        Cursor res =  db.rawQuery( "select * from " + PURCHASES_TABLE_NAME + " order by " + PURCHASES_COLUMN_ID + " desc", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){

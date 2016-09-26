@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import me.raptor.resellingapp.model.Sale;
@@ -125,5 +126,30 @@ public class SaleStore extends RaptorStore{
             res.moveToNext();
         }
         return sales_list;
+    }
+
+    public Collection<? extends Sale> getAllSalesOrdered() {
+        List<Sale> sales_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + SALES_TABLE_NAME + " order by " + SALES_COLUMN_ID + " desc", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            try {
+                sales_list.add(new Sale(res.getInt(res.getColumnIndex(SALES_COLUMN_ID)),
+                        sdf.parse(res.getString(res.getColumnIndex(SALES_COLUMN_DATE))),
+                        res.getString(res.getColumnIndex(SALES_COLUMN_GROUP))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            res.moveToNext();
+        }
+        return sales_list;
+
+    }
+
+    public Integer getNextID() {
+        return numberOfRows() + 1;
     }
 }

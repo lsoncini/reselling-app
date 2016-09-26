@@ -48,7 +48,7 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
             saveItem.setVisible(false);
             newItem.setVisible(false);
             editItem.setVisible(true);
-        } else if (fragment instanceof ProductEditFragment){
+        } else if (fragment instanceof PurchaseProductEditFragment){
             saveItem.setVisible(false);
             newItem.setVisible(false);
             editItem.setVisible(false);
@@ -93,7 +93,7 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
             }
         } else if(fragment instanceof PurchaseDetailFragment){
             if (item.getItemId() == R.id.action_new_button) {
-                ProductEditFragment f  = new ProductEditFragment();
+                PurchaseProductEditFragment f  = new PurchaseProductEditFragment();
                 f.setPurchase(((PurchaseDetailFragment)fragment).getPurchase());
                 f.setProductListener((PurchaseDetailFragment)fragment);
                 f.setNew(true);
@@ -102,7 +102,7 @@ public class PurchasesActivity extends AppCompatActivity implements PurchaseList
             }
         } else if(fragment instanceof ProductDetailFragment){
             if (item.getItemId() == R.id.action_edit_button) {
-                ProductEditFragment f = new ProductEditFragment();
+                PurchaseProductEditFragment f = new PurchaseProductEditFragment();
                 f.setProduct(((ProductDetailFragment)fragment).product);
                 f.setProductListener((ProductDetailFragment)fragment);
                 navTo(f);

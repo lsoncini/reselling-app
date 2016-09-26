@@ -206,4 +206,65 @@ public class ProductStore extends RaptorStore {
     }
 
 
+    public Integer getProductCountForSale(Sale sale) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select count(*) from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_SALEID + "="+sale.getSaleID(), null );
+        res.moveToFirst();
+        return res.getInt(0);
+    }
+
+    public List<Product> getProductsForSale(Sale sale) {
+        List<Product> products_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_SALEID + "=" + sale.getSaleID(), null );
+        res.moveToFirst();
+
+        while(!res.isAfterLast()){
+            Integer buyerIndex = res.getColumnIndex(PRODUCTS_COLUMN_BUYER);
+            Integer saleIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALEID);
+            Integer salePriceIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE);
+            products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
+                    ClientStore.getInstance(context).getClient(res.getInt(buyerIndex)),
+                    sale,
+                    PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
+                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
+                    res.getDouble(salePriceIndex)));
+            res.moveToNext();
+        }
+        return products_list;
+    }
+
+    public Integer getTotalForSale(Sale sale) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select total(" + PRODUCTS_COLUMN_SALE_PRICE + ") from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_SALEID + "="+sale.getSaleID(), null );
+        res.moveToFirst();
+        return res.getInt(0);
+    }
+
+    public List<Product> getAllProductsOnSale() {
+        List<Product> products_list = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + PRODUCTS_TABLE_NAME + " where " + PRODUCTS_COLUMN_SALEID + " IS NULL order by " + PRODUCTS_COLUMN_NAME, null );
+        res.moveToFirst();
+
+        while(!res.isAfterLast()){
+            Integer buyerIndex = res.getColumnIndex(PRODUCTS_COLUMN_BUYER);
+            Integer saleIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALEID);
+            Integer salePriceIndex = res.getColumnIndex(PRODUCTS_COLUMN_SALE_PRICE);
+            products_list.add(new Product(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_NAME)),
+                    res.getString(res.getColumnIndex(PRODUCTS_COLUMN_CATEGORY)),
+                    res.isNull(buyerIndex)? null : ClientStore.getInstance(context).getClient(res.getInt(buyerIndex)),
+                    res.isNull(saleIndex) ? null : SaleStore.getInstance(context).getSale(res.getInt(saleIndex)),
+                    PurchaseStore.getInstance(context).getPurchase(res.getInt(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASEID))),
+                    res.getDouble(res.getColumnIndex(PRODUCTS_COLUMN_PURCHASE_PRICE)),
+                    res.isNull(salePriceIndex) ? null : res.getDouble(salePriceIndex)));
+            res.moveToNext();
+        }
+        return products_list;
+    }
 }

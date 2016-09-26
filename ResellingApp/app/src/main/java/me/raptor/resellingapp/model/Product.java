@@ -25,6 +25,22 @@ public class Product {
         this.salePrice = salePrice;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        return productID.equals(product.productID);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return productID.hashCode();
+    }
+
     public Integer getProductID() {
         return productID;
     }

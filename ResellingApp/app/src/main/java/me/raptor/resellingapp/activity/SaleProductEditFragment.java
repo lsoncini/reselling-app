@@ -94,8 +94,13 @@ public class SaleProductEditFragment extends LoadingFragment {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nameSpinnerValue = (String) nameSpinner.getSelectedItem();
-                String name = (nameSpinnerValue.isEmpty()) ? null : nameSpinnerValue;
+                String name;
+                if(editing){
+                    name = product.getName();
+                } else{
+                    String nameSpinnerValue = (String) nameSpinner.getSelectedItem();
+                    name = (nameSpinnerValue.isEmpty()) ? null : nameSpinnerValue;
+                }
                 String buyerTV_value = buyerTV.getText().toString();
                 String buyerSpinnerValue = (String) buyerSpinner.getSelectedItem();
                 String buyer = (buyerTV.getVisibility() == View.VISIBLE) ? buyerTV_value : buyerSpinnerValue;
@@ -151,12 +156,46 @@ public class SaleProductEditFragment extends LoadingFragment {
     public SaleProductEditFragment setProduct(Product product) {
         this.product = product;
         productChanged = true;
+        if (product.getSale() != null)
+            sale = product.getSale();
         updateView();
         return this;
     }
 
     private void updateView() {
         if (getView() == null || !productChanged) return;
+        if(!editing){
+            if (productNames.size() == 0){
+                nameSpinner.setVisibility(View.GONE);
+                noProducts.setVisibility(View.VISIBLE);
+            }else{
+                nameSpinner.setVisibility(View.VISIBLE);
+                noProducts.setVisibility(View.GONE);
+                ArrayAdapter<String> productsAdapter = new ArrayAdapter<>(getContext(),
+                        android.R.layout.simple_spinner_item, productNames);
+                productsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                nameSpinner.setAdapter(productsAdapter);
+                nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Product product = products.get(position);
+                        if(!product.equals(SaleProductEditFragment.this.product) && !editing)
+                            setProduct(product);
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+            if(product!=null)
+                nameSpinner.setSelection(products.indexOf(product));
+        }else{
+            if (product != null) {
+                nameSpinner.setVisibility(View.GONE);
+                noProducts.setVisibility(View.VISIBLE);
+                noProducts.setText(product.getName());
+            }
+        }
         ArrayAdapter<String> clientsAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, clientNames);
         clientsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -174,30 +213,8 @@ public class SaleProductEditFragment extends LoadingFragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        if (productNames.size() == 0){
-            nameSpinner.setVisibility(View.GONE);
-            noProducts.setVisibility(View.VISIBLE);
-        }else{
-            nameSpinner.setVisibility(View.VISIBLE);
-            noProducts.setVisibility(View.GONE);
-            ArrayAdapter<String> productsAdapter = new ArrayAdapter<>(getContext(),
-                    android.R.layout.simple_spinner_item, productNames);
-            productsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            nameSpinner.setAdapter(productsAdapter);
-            nameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Product product = products.get(position);
-                    if(!product.equals(SaleProductEditFragment.this.product) && !editing)
-                        setProduct(product);
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-        }
+
         if(product!=null) {
-            nameSpinner.setSelection(products.indexOf(product));
             Client buyer = product.getBuyer();
             if (buyer != null) {
                 buyerTV.setText(buyer.getName(), TextView.BufferType.EDITABLE);

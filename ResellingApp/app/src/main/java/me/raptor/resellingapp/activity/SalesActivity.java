@@ -19,10 +19,10 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Sale;
 import me.raptor.resellingapp.store.GroupStore;
 import me.raptor.resellingapp.store.SaleStore;
-import me.raptor.resellingapp.view.ProductList;
+import me.raptor.resellingapp.view.ProductListListener;
 import me.raptor.resellingapp.view.SaleList;
 
-public class SalesActivity extends AppCompatActivity implements SaleList.SaleListListener, ProductList.ProductListListener{
+public class SalesActivity extends AppCompatActivity implements SaleList.SaleListListener, ProductListListener {
 
     SaleListFragment slf;
     SaleDetailFragment sdf;

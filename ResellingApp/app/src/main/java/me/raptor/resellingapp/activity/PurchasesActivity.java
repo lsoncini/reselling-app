@@ -9,10 +9,10 @@ import android.widget.Toast;
 import me.raptor.resellingapp.R;
 import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
-import me.raptor.resellingapp.view.ProductList;
+import me.raptor.resellingapp.view.ProductListListener;
 import me.raptor.resellingapp.view.PurchaseList;
 
-public class PurchasesActivity extends AppCompatActivity implements PurchaseList.PurchaseListListener, ProductList.ProductListListener{
+public class PurchasesActivity extends AppCompatActivity implements PurchaseList.PurchaseListListener, ProductListListener {
 
     PurchaseListFragment plf;
     PurchaseDetailFragment pdf;

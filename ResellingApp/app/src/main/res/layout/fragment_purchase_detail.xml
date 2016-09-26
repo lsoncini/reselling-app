@@ -6,7 +6,7 @@
 
     <include layout="@layout/description_layout"
         android:id="@+id/description_layout"/>
-    <include layout="@layout/product_small_list_layout"
+    <include layout="@layout/purchase_product_small_list_layout"
         android:id="@+id/products_layout"/>
 
 </LinearLayout>

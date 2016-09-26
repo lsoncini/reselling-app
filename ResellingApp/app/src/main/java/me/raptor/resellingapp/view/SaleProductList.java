@@ -19,29 +19,25 @@ import me.raptor.resellingapp.model.Product;
 /**
  * Created by Lucas on 18/09/2016.
  */
-public class ProductList extends FrameLayout {
-    public interface ProductListListener {
-        void onProductSelected(Product product);
-        void onProductListChanged();
-    }
+public class SaleProductList extends FrameLayout {
 
     @BindView(R.id.list) ListView list;
 
-    ProductAdapter adapter;
+    SaleProductAdapter adapter;
     ProductListListener listener;
 
 
-    public ProductList(Context context) {
+    public SaleProductList(Context context) {
         super(context);
         init();
     }
 
-    public ProductList(Context context, AttributeSet attrs) {
+    public SaleProductList(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ProductList(Context context, AttributeSet attrs, int defStyle) {
+    public SaleProductList(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -52,7 +48,7 @@ public class ProductList extends FrameLayout {
 
         list.setFocusable(false);
 
-        list.setAdapter(adapter = new ProductAdapter(getContext()));
+        list.setAdapter(adapter = new SaleProductAdapter(getContext()));
         list.setOnItemClickListener(onListItemClick);
     }
 
@@ -82,17 +78,17 @@ public class ProductList extends FrameLayout {
     };
 
 
-    public static class ProductAdapter extends ArrayAdapter<Product> {
+    public static class SaleProductAdapter extends ArrayAdapter<Product> {
 
-        public ProductAdapter(Context context) {
+        public SaleProductAdapter(Context context) {
             super(context, 0);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ProductListItem view = (convertView != null) ?
-                    (ProductListItem) convertView :
-                    new ProductListItem(getContext());
+            SaleProductListItem view = (convertView != null) ?
+                    (SaleProductListItem) convertView :
+                    new SaleProductListItem(getContext());
 
             view.setProduct(getItem(position));
 

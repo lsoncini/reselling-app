@@ -7,23 +7,18 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.raptor.resellingapp.R;
 import me.raptor.resellingapp.model.Product;
 
 /**
  * Created by Lucas on 18/09/2016.
  */
-public class ProductListItem extends FrameLayout{
+public abstract class ProductListItem extends FrameLayout{
 
     @BindView(R.id.product_name)
     TextView name;
-    @BindView(R.id.product_price)
-    TextView price;
-    @BindView(R.id.image)
-    CircleImageView imageView;
 
-    private Product product;
+    protected Product product;
 
     public ProductListItem(Context context) {
         super(context);
@@ -48,8 +43,8 @@ public class ProductListItem extends FrameLayout{
     void setProduct(Product product) {
         this.product = product;
         name.setText(product.getName());
-        Integer price_value = (int)Math.ceil(product.getPurchasePrice());
-        String msg = "$" + price_value;
-        price.setText(msg);
+        setPrice();
     }
+
+    public abstract void setPrice();
 }

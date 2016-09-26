@@ -19,13 +19,14 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Purchase;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.PurchaseStore;
-import me.raptor.resellingapp.view.ProductList;
+import me.raptor.resellingapp.view.ProductListListener;
 import me.raptor.resellingapp.view.PurchaseList;
+import me.raptor.resellingapp.view.PurchaseProductList;
 
 /**
  * Created by Lucas on 19/09/2016.
  */
-public class PurchaseDetailFragment extends LoadingFragment implements ProductList.ProductListListener, OnProductChangeListener{
+public class PurchaseDetailFragment extends LoadingFragment implements ProductListListener, OnProductChangeListener{
     public String getTitle() {
         return purchase ==null?"Purchase Details": getResources().getString(R.string.purchase) + " "+ purchase.getPurchaseID();
     }
@@ -38,7 +39,8 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
     @BindView(R.id.description_title) TextView data_title;
     @BindView(R.id.description) TextView data;
     @BindView(R.id.product_list_empty_view) TextView emptyView;
-    @BindView(R.id.productsList) ProductList productList;
+    @BindView(R.id.productsList)
+    PurchaseProductList productList;
 
     @BindString(R.string.information_title) String data_title_string;
     @BindString(R.string.purchase_date_title) String date_title;
@@ -50,7 +52,7 @@ public class PurchaseDetailFragment extends LoadingFragment implements ProductLi
         View view = inflater.inflate(R.layout.fragment_purchase_detail, container, false);
         ButterKnife.bind(this, view);
         sdf = new SimpleDateFormat(getResources().getString(R.string.date_format_2));
-        productList.setListener((ProductList.ProductListListener) getActivity());
+        productList.setListener((ProductListListener) getActivity());
         return view;
     }
 

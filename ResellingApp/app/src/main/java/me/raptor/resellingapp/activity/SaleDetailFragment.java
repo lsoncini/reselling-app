@@ -19,13 +19,14 @@ import me.raptor.resellingapp.model.Product;
 import me.raptor.resellingapp.model.Sale;
 import me.raptor.resellingapp.store.ProductStore;
 import me.raptor.resellingapp.store.SaleStore;
-import me.raptor.resellingapp.view.ProductList;
+import me.raptor.resellingapp.view.ProductListListener;
 import me.raptor.resellingapp.view.SaleList;
+import me.raptor.resellingapp.view.SaleProductList;
 
 /**
  * Created by Lucas on 25/09/2016.
  */
-public class SaleDetailFragment extends LoadingFragment implements ProductList.ProductListListener, OnProductChangeListener{
+public class SaleDetailFragment extends LoadingFragment implements ProductListListener, OnProductChangeListener{
     public String getTitle() {
         return sale ==null?"Sale Details": getResources().getString(R.string.sale) + " "+ sale.getSaleID();
     }
@@ -38,7 +39,8 @@ public class SaleDetailFragment extends LoadingFragment implements ProductList.P
     @BindView(R.id.description_title) TextView data_title;
     @BindView(R.id.description) TextView data;
     @BindView(R.id.product_list_empty_view) TextView emptyView;
-    @BindView(R.id.productsList) ProductList productList;
+    @BindView(R.id.productsList)
+    SaleProductList productList;
 
     @BindString(R.string.information_title) String data_title_string;
     @BindString(R.string.sale_date_title) String date_title;
@@ -48,10 +50,10 @@ public class SaleDetailFragment extends LoadingFragment implements ProductList.P
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_purchase_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale_detail, container, false);
         ButterKnife.bind(this, view);
         sdf = new SimpleDateFormat(getResources().getString(R.string.date_format_2));
-        productList.setListener((ProductList.ProductListListener) getActivity());
+        productList.setListener((ProductListListener) getActivity());
         return view;
     }
 

@@ -27,7 +27,7 @@
         android:text="@string/empty_product_small_list_msg"
         android:textStyle="normal"/>
 
-    <me.raptor.resellingapp.view.ProductList
+    <me.raptor.resellingapp.view.PurchaseProductList
         android:id="@+id/productsList"
         android:background="#FFFFFF"
         android:layout_width="match_parent"
